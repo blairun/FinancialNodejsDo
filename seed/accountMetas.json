@@ -1,0 +1,41 @@
+[
+  {
+    "UserID": 2,
+    "Institution": "ABC",
+    "FriendlyName": "Car",
+    "BackupAmount": 1111,
+    "BackupType": "Asset",
+    "Cost": 2222,
+    "Salvage": 555,
+    "Life": 10,
+    "StartDate": "2015-01-01"
+  },
+  {
+    "UserID": 3,
+    "Institution": "XYZ",
+    "FriendlyName": "Car",
+    "BackupAmount": 1111,
+    "BackupType": "Asset",
+    "Cost": 2222,
+    "Salvage": 555,
+    "Life": 10,
+    "StartDate": "2015-01-01"
+  },
+  {
+    "UserID": 3,
+    "Institution": "Me",
+    "FriendlyName": "Home",
+    "BackupType": "Asset",
+    "BackupAmount": 11111,
+    "GoalID": 1
+  },
+  {
+    "UserID": 3,
+    "Institution": "bank",
+    "FriendlyName": "HSA",
+    "BackupAmount": 10000,
+    "BackupType": "HSA",
+    "Link": "https://www.bank.com/",
+    "GoalID": 2
+  }
+]

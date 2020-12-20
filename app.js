@@ -1,41 +1,44 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express')
+const https = require('https')
+const fs = require('fs')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const morgan = require('morgan')
+const { sequelize } = require('./models')
+const config = require('./config/config')
 
-var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
+const app = express()
 
-var app = express();
+// app.use(morgan('tiny'))
+app.use(morgan('dev'))
+app.use(bodyParser.json())
+app.use(cors())
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+require('./passport')
+require('./routes')(app)
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+sequelize.sync({ force: false }).then(() => {
+  // http server
+  app.listen(config.port)
+  console.log(`Server started on port ${config.port}`)
+  console.dir(`http://localhost:${config.port}/`)
+  console.dir(`http://localhost:${config.port}/balances_current`)
+  console.dir(`http://localhost:${config.port}/transactions_current`)
 
-app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+  // https
+  //   .createServer(
+  //     {
+  //       key: fs.readFileSync('../certs/localhost+1-key.pem'),
+  //       cert: fs.readFileSync('../certs/localhost+1.pem'),
+  //     },
+  //     app
+  //   )
+  //   .listen(config.port)
+  // console.dir(`https://localhost:${config.port}/`)
+  // console.dir(`https://localhost:${config.port}/balances_current`)
+  // console.dir(`https://localhost:${config.port}/transactions_current`)
+})
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+// TODO look into let's encrypt for express server and localtunnel.me for secure web access to localhost
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-module.exports = app;
+module.exports = app

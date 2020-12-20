@@ -1,0 +1,38 @@
+[
+  {
+    "UserID": 2,
+    "AccountID": "AccountID",
+    "Name": "Name",
+    "OfficialName": "OfficialName",
+    "Available": 111,
+    "Current": 112,
+    "Limit": 113,
+    "Type": "Type",
+    "Subtype": "Subtype",
+    "RetrievalDate": "1/1/2020"
+  },
+  {
+    "UserID": 3,
+    "AccountID": "AccountID2",
+    "Name": "Name2",
+    "OfficialName": "OfficialName2",
+    "Available": 221,
+    "Current": 222,
+    "Limit": 223,
+    "Type": "Type",
+    "Subtype": "Subtype",
+    "RetrievalDate": "1/2/2020"
+  },
+  {
+    "UserID": 3,
+    "AccountID": "AccountID3",
+    "Name": "Name3",
+    "OfficialName": "OfficialName3",
+    "Available": 331,
+    "Current": 332,
+    "Limit": 333,
+    "Type": "Type",
+    "Subtype": "Subtype",
+    "RetrievalDate": "1/3/2020"
+  }
+]
