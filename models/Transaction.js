@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       UserID: DataTypes.INTEGER,
       Account: DataTypes.STRING,
-      AccountID: DataTypes.INTEGER,
+      AccountID: DataTypes.STRING,
       TransactionID: {
         type: DataTypes.STRING,
         primaryKey: true,

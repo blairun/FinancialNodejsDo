@@ -58,7 +58,8 @@
     "passport-jwt": "^4.0.0",
     "plaid": "^6.0.0",
     "sequelize": "^6.3.5",
-    "sqlite3": "^5.0.0"
+    "sqlite3": "^5.0.0",
+    "pg": "8.3.3"
   },
   "devDependencies": {
     "morgan": "^1.10.0",

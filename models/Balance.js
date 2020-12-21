@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     'Balance',
     {
       UserID: DataTypes.INTEGER,
-      AccountID: DataTypes.INTEGER,
+      AccountID: DataTypes.STRING,
       Name: DataTypes.STRING,
       OfficialName: DataTypes.STRING,
       Available: DataTypes.DOUBLE,
