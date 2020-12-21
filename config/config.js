@@ -20,7 +20,7 @@ const path = require('path')
 // }
 
 module.exports = {
-  // port: process.env.PORT || 9990,
+  port: process.env.APP_PORT,
   db: {
     database: process.env.DB_NAME,
     username: process.env.DB_USER,
