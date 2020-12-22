@@ -58,7 +58,7 @@ module.exports = (app) => {
     var HTML = '<h1>Server running</h1>'
     // HTML += '<a href="https://192.168.1.150:9999/#/"><h1>Go to Client</h1></a>'
     HTML +=
-      '<a href="https://financial-do-x4bpn.ondigitalocean.app/"><h1>Go to Client</h1></a>'
+      '<a href="https://financial-vue-do-vdnma.ondigitalocean.app/"><h1>Go to Client</h1></a>'
     // HTML += `${Users()}`
     res.end(HTML)
   })
