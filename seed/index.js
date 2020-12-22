@@ -9,6 +9,7 @@ const {
   Goal,
   AccountMeta,
   // Balance,
+  // Transaction,
 } = require('../models')
 
 const Promise = require('bluebird')
@@ -17,6 +18,7 @@ const plaids = require('./plaids.js')
 const goals = require('./goals.json')
 const accountMetas = require('./accountMetas.json')
 // const balances = require('./balances.json')
+// const transactions = require('./transactions.json')
 
 sequelize.sync({ force: true }).then(async function () {
   // must come first due to foreign key constraints
@@ -43,6 +45,11 @@ sequelize.sync({ force: true }).then(async function () {
   // await Promise.all(
   //   balances.map((balance) => {
   //     Balance.create(balance)
+  //   })
+  // )
+  // await Promise.all(
+  //   transactions.map((transaction) => {
+  //     Transaction.create(transaction)
   //   })
   // )
 })

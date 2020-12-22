@@ -7,20 +7,25 @@ const transactionError = require('../scripts/plaidError')
 module.exports = {
   async current(req, res) {
     //select latest transactions info
-    let sql = `SELECT *
-    FROM Transactions t
-         INNER JOIN
-         (
-             SELECT TransactionID,
-                    max(RetrievalDate) AS Latest
-               FROM Transactions
-              GROUP BY TransactionID
-         )
-         tm ON t.TransactionID = tm.TransactionID AND 
-               t.RetrievalDate = tm.Latest
-    WHERE t.UserID = "${req.user.dataValues.id}" AND 
-          t.Hide IS NULL
-   ORDER BY t.TransactionDate DESC;`
+    let sql = `select
+        *
+      from
+        public."Transactions" t
+      inner join (
+        select
+          i."TransactionID",
+          max(i."RetrievalDate") as "Latest"
+        from
+          public."Transactions" i
+        group by
+          i."TransactionID" ) as tm on
+        t."TransactionID" = tm."TransactionID"
+        and t."RetrievalDate" = tm."Latest"
+      where
+        t."UserID" = ${req.user.dataValues.id}
+        and t."Hide" is null
+      order by
+        t."TransactionDate" desc`
 
     await sqlSend(res, sql, 'transactions')
   },

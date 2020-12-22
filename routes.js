@@ -6,6 +6,19 @@ const TransactionsCtrl = require('./controllers/TransactionsCtrl')
 const isAuthenticated = require('./policies/isAuthenticated')
 const PlaidsCtrl = require('./controllers/PlaidsCtrl')
 
+// const { sequelize } = require('./models')
+// const { QueryTypes } = require('sequelize')
+// // const { Users } = require('../models')
+
+// async function Users() {
+//   let sql = `SELECT * FROM Users`
+//   res = await sequelize.query(sql, {
+//     type: QueryTypes.SELECT,
+//   })
+//   console.log(res)
+//   return res
+// }
+
 module.exports = (app) => {
   app.post(
     '/register',
@@ -46,6 +59,7 @@ module.exports = (app) => {
     // HTML += '<a href="https://192.168.1.150:9999/#/"><h1>Go to Client</h1></a>'
     HTML +=
       '<a href="https://financial-do-x4bpn.ondigitalocean.app/"><h1>Go to Client</h1></a>'
+    // HTML += `${Users()}`
     res.end(HTML)
   })
 }

@@ -1,24 +1,6 @@
 require('dotenv').config()
 const path = require('path')
 
-// module.exports = {
-//   port: process.env.PORT || 9990,
-//   db: {
-//     database: process.env.DB_NAME || 'financial_vue',
-//     user: process.env.DB_USER || 'financial_vue',
-//     password: process.env.DB_PASS || 'financial_vue',
-//     options: {
-//       dialect: process.env.DIALECT || 'sqlite',
-//       host: process.env.HOST || 'localhost',
-//       storage: path.resolve(__dirname, `../${process.env.DB_ENV}.sqlite`),
-//       logging: false,
-//     },
-//   },
-//   authentication: {
-//     jwtSecret: process.env.JWT_SECRET || 'secret',
-//   },
-// }
-
 module.exports = {
   port: process.env.APP_PORT,
   db: {
@@ -28,13 +10,13 @@ module.exports = {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: 'postgres',
-    // logging: false,
     dialectOptions: {
       ssl: {
         require: true,
         rejectUnauthorized: false,
       },
     },
+    // logging: false,
   },
   authentication: {
     jwtSecret: process.env.JWT_SECRET || 'secret',

@@ -27,35 +27,35 @@ module.exports = {
       process.env.PLAID_ENV = req.user.dataValues.plaidEnv
       // console.log(process.env.PLAID_ENV)
       const client = plaidClient()
-      client.exchangePublicToken(req.body.PlaidToken, async function (
-        error,
-        tokenResponse
-      ) {
-        if (error != null) {
-          prettyPrintResponse(error)
-          return response.json({
-            error: error,
+      client.exchangePublicToken(
+        req.body.PlaidToken,
+        async function (error, tokenResponse) {
+          if (error != null) {
+            prettyPrintResponse(error)
+            return response.json({
+              error: error,
+            })
+          }
+          ACCESS_TOKEN = tokenResponse.access_token
+          // saveAccessToken(ACCESS_TOKEN);
+          // ITEM_ID = tokenResponse.item_id;
+          // prettyPrintResponse(tokenResponse)
+          // response.json({
+          //   access_token: ACCESS_TOKEN,
+          //   item_id: ITEM_ID,
+          //   error: null,
+          // });
+          // console.log(req.body)
+          req.body.PlaidToken = ACCESS_TOKEN
+          // console.log(req.body)
+          const newPlaid = await Plaid.create(req.body)
+          // console.log(newPlaid);
+          res.send({
+            message: 'success',
+            // data: newPlaid,
           })
         }
-        ACCESS_TOKEN = tokenResponse.access_token
-        // saveAccessToken(ACCESS_TOKEN);
-        // ITEM_ID = tokenResponse.item_id;
-        // prettyPrintResponse(tokenResponse)
-        // response.json({
-        //   access_token: ACCESS_TOKEN,
-        //   item_id: ITEM_ID,
-        //   error: null,
-        // });
-        // console.log(req.body)
-        req.body.PlaidToken = ACCESS_TOKEN
-        // console.log(req.body)
-        const newPlaid = await Plaid.create(req.body)
-        // console.log(newPlaid);
-        res.send({
-          message: 'success',
-          // data: newPlaid,
-        })
-      })
+      )
     } catch (error) {
       res.status(500).send({
         error: 'an error has occured trying to add this item',
@@ -84,10 +84,15 @@ module.exports = {
   async metas(req, res) {
     // account metadata for current user
     // order items alphabetically
-    let sql = `SELECT *
-    FROM AccountMeta
-    WHERE UserID = "${req.user.dataValues.id}" AND Closed IS NULL
-    ORDER BY LOWER(Institution);`
+    let sql = `select
+        *
+      from
+        public."AccountMeta" as am
+      where
+        am."UserID" = ${req.user.dataValues.id}
+        and am."Closed" is null
+      order by
+        LOWER(am."Institution")`
 
     await sqlSend(res, sql, 'account metadata')
   },
