@@ -1,3 +1,4 @@
+require('dotenv').config()
 const AuthenticationController = require('./controllers/AuthenticationCtrl')
 const AuthenticationControllerPolicy = require('./policies/AuthenticationCtrlPolicy')
 const BalancesCtrl = require('./controllers/BalancesCtrl')
@@ -5,19 +6,6 @@ const TransactionsCtrl = require('./controllers/TransactionsCtrl')
 
 const isAuthenticated = require('./policies/isAuthenticated')
 const PlaidsCtrl = require('./controllers/PlaidsCtrl')
-
-// const { sequelize } = require('./models')
-// const { QueryTypes } = require('sequelize')
-// // const { Users } = require('../models')
-
-// async function Users() {
-//   let sql = `SELECT * FROM Users`
-//   res = await sequelize.query(sql, {
-//     type: QueryTypes.SELECT,
-//   })
-//   console.log(res)
-//   return res
-// }
 
 module.exports = (app) => {
   app.post(
@@ -56,10 +44,7 @@ module.exports = (app) => {
   app.get('/', (req, res, next) => {
     // res.json({ message: 'Ok' })
     var HTML = '<h1>Server running</h1>'
-    // HTML += '<a href="https://192.168.1.150:9999/#/"><h1>Go to Client</h1></a>'
-    HTML +=
-      '<a href="https://financial-vue-do-vdnma.ondigitalocean.app/"><h1>Go to Client</h1></a>'
-    // HTML += `${Users()}`
+    HTML += `<a href=${process.env.CLIENT_ADDRESS}><h1>Go to Client</h1></a>`
     res.end(HTML)
   })
 }

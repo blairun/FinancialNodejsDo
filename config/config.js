@@ -1,5 +1,4 @@
 require('dotenv').config()
-const path = require('path')
 
 module.exports = {
   port: process.env.APP_PORT,
@@ -16,7 +15,7 @@ module.exports = {
         rejectUnauthorized: false,
       },
     },
-    // logging: false,
+    logging: false,
   },
   authentication: {
     jwtSecret: process.env.JWT_SECRET || 'secret',

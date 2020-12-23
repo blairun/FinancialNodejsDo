@@ -1,5 +1,8 @@
 require('dotenv').config()
 
+// Plaid sandbox tokens expire quickly, so these are likely invalid
+// For testing, it's easier to just add a new sandbox account using the web interface
+
 module.exports = [
   {
     UserID: 2,

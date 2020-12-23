@@ -1,12 +1,10 @@
 const express = require('express')
 const http = require('http')
 const https = require('https')
-const fs = require('fs')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 const { sequelize } = require('./models')
-const config = require('./config/config')
 const app = express()
 
 // app.use(morgan('tiny'))
@@ -24,74 +22,36 @@ require('./routes')(app)
 
 sequelize.sync({ force: false }).then(() => {
   // http server
-
+  // app.listen(config.port)
   server.listen(port)
   server.on('error', onError)
   server.on('listening', onListening)
-
-  console.dir(process.env.APP_PORT)
-  console.dir(process.env.DB_ENV)
-  console.dir(process.env.DB_NAME)
-  console.dir(process.env.DB_USER)
-  console.dir(process.env.DB_PASS)
-  console.dir(process.env.DB_HOST)
-  console.dir(process.env.DB_PORT)
-
-  // app.listen(config.port)
-  // console.log(`Server started on port ${config.port}`)
-  // console.dir(`http://localhost:${config.port}/`)
-  // console.dir(`http://localhost:${config.port}/balances_current`)
-  // console.dir(`http://localhost:${config.port}/transactions_current`)
-
-  // https
-  //   .createServer(
-  //     {
-  //       key: fs.readFileSync('../certs/localhost+1-key.pem'),
-  //       cert: fs.readFileSync('../certs/localhost+1.pem'),
-  //     },
-  //     app
-  //   )
-  //   .listen(config.port)
-  // console.dir(`https://localhost:${config.port}/`)
-  // console.dir(`https://localhost:${config.port}/balances_current`)
-  // console.dir(`https://localhost:${config.port}/transactions_current`)
 })
-
-// TODO look into let's encrypt for express server and localtunnel.me for secure web access to localhost
-
-module.exports = app
 
 /**
  * Normalize a port into a number, string, or false.
  */
-
 function normalizePort(val) {
   var port = parseInt(val, 10)
-
   if (isNaN(port)) {
     // named pipe
     return val
   }
-
   if (port >= 0) {
     // port number
     return port
   }
-
   return false
 }
 
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error
   }
-
   var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port
-
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
@@ -110,7 +70,6 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
   var addr = server.address()
   var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port
@@ -118,10 +77,11 @@ function onListening() {
   for (let line of startupMessage.split('\n')) {
     console.log(line)
   }
-
+  console.dir(`http://localhost:${port}/`)
   console.log('Server listening on ' + bind + ' 🚀')
 }
 
+// sharky
 const startupMessage = `
 [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;54;48;5;39m [38;5;54;48;5;39m [38;5;54;48;5;39m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [0m
 [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;39;48;5;39m [38;5;21;48;5;45m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;92;48;5;45m [38;5;45;48;5;45m [38;5;45;48;5;45m [38;5;45;48;5;45m [38;5;45;48;5;45m [38;5;93;48;5;45m�[38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [38;5;1;48;5;16m [0m

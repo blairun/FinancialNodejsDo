@@ -1,5 +1,41 @@
 [
   {
+    "UserID": 1,
+    "AccountID": "AccountID1",
+    "Institution": "bank 1",
+    "FriendlyName": "checking",
+    "BackupType": "Asset",
+    "BackupAmount": 1111,
+    "GoalID": 1
+  },
+  {
+    "UserID": 1,
+    "AccountID": "AccountID2",
+    "Institution": "bank 2",
+    "FriendlyName": "HSA",
+    "BackupAmount": 1000,
+    "BackupType": "HSA",
+    "Link": "https://www.bank2.com/",
+    "GoalID": 2
+  },
+  {
+    "UserID": 1,
+    "AccountID": "AccountID3",
+    "Institution": "Bank 3",
+    "FriendlyName": "Loan",
+    "BackupAmount": 1000,
+    "BackupType": "Loan",
+    "Link": "https://www.bank3.com/"
+  },
+  {
+    "UserID": 1,
+    "AccountID": "AccountID4",
+    "Institution": "Assets",
+    "FriendlyName": "Car",
+    "BackupType": "Credit",
+    "BackupAmount": 1111
+  },
+  {
     "UserID": 2,
     "Institution": "ABC",
     "FriendlyName": "Car",
@@ -20,22 +56,5 @@
     "Salvage": 555,
     "Life": 10,
     "StartDate": "2015-01-01"
-  },
-  {
-    "UserID": 3,
-    "Institution": "Me",
-    "FriendlyName": "Home",
-    "BackupType": "Asset",
-    "BackupAmount": 11111,
-    "GoalID": 1
-  },
-  {
-    "UserID": 3,
-    "Institution": "bank",
-    "FriendlyName": "HSA",
-    "BackupAmount": 10000,
-    "BackupType": "HSA",
-    "Link": "https://www.bank.com/",
-    "GoalID": 2
   }
 ]

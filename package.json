@@ -10,9 +10,7 @@
     "plaid-start-sand": "set PLAID_ENV=sandbox&& node scripts/plaidServer.js",
     "seed-test-db": "set DB_ENV=dbTest&& node seed",
     "--Digital-Ocean--": "DO env variable DB_ENV is set to dbTest so app always uses Plaid test environment",
-    "start": "node app.js",
-    "start-test": "set DB_ENV=dbTest&& node app.js",
-    "start_original_DO": "node ./bin/www"
+    "start": "node app.js"
   },
   "scriptComments": {
     "test-cron": "node cron.js",
