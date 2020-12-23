@@ -43,7 +43,7 @@ module.exports = (app) => {
   // Root path
   app.get('/', (req, res, next) => {
     // res.json({ message: 'Ok' })
-    var HTML = '<h1>Server running</h1>'
+    var HTML = '<h1>Server is running</h1>'
     HTML += `<a href=${process.env.CLIENT_ADDRESS}><h1>Go to Client</h1></a>`
     res.end(HTML)
   })

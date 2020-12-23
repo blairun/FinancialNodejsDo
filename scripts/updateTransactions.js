@@ -10,6 +10,9 @@ const { QueryTypes } = require('sequelize')
 // see ngrok or localtunnel for exposing localhost
 // https://www.youtube.com/watch?v=xl6ZrCQpwM0
 
+// IDEA use cron job to update transaction and balance data at regular intervals
+// https://www.digitalocean.com/community/questions/cron-jobs-for-app-platform
+
 const updateTransactions = async function (plaidAccounts, userId, months = 1) {
   try {
     const transactions = await fetchTransactions(plaidAccounts, userId, months)

@@ -81,7 +81,7 @@ module.exports = [
     TransactionID: 7,
     TransactionDate: date3,
     Description: 'Description7',
-    Amount: -222,
+    Amount: -55,
     Category: 'Shops,Hardware Store',
     Pending: 0,
     RetrievalDate: retrievalDate,

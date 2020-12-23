@@ -4,16 +4,13 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "serve-app-test": "set DB_ENV=dbTest&& nodemon app.js",
-    "serve-app-live": "nodemon app.js",
-    "plaid-start": "set PLAID_ENV=development&& node scripts/plaidServer.js",
+    "serve-app": "nodemon app.js",
+    "plaid-start-dev": "set PLAID_ENV=development&& node scripts/plaidServer.js",
     "plaid-start-sand": "set PLAID_ENV=sandbox&& node scripts/plaidServer.js",
-    "seed-test-db": "set DB_ENV=dbTest&& node seed",
-    "--Digital-Ocean--": "DO env variable DB_ENV is set to dbTest so app always uses Plaid test environment",
+    "seed-db": "node seed",
     "start": "node app.js"
   },
   "scriptComments": {
-    "test-cron": "node cron.js",
     "get-accounts": "PLAID_ENV=development node tests/getAccounts.js",
     "update-balances": "PLAID_ENV=development node tests/updateBalances.js",
     "update-transactions": "PLAID_ENV=development node tests/updateTransactions.js",
@@ -22,33 +19,20 @@
     "update-balances-sand": "PLAID_ENV=sandbox node tests/updateBalances.js",
     "update-transactions-sand": "PLAID_ENV=sandbox node tests/updateTransactions.js",
     "space-1": "",
-    "serve-app-forever": "forever start --watch true app.js",
-    "plaid-start-forever": "forever start scripts/plaidServer.js",
-    "plaid-stop-forever": "forever stop scripts/plaidServer.js",
-    "space-2": "",
     "test-plaid": "node tests/plaid.js",
-    "test-sqlite": "node tests/sqlite3.js",
-    "test-sequelize": "node tests/sequelize.js",
-    "space-3": "",
-    "token-drive": "node drive/getDriveToken.js",
-    "archive-db": "node drive/archiver",
-    "backup-db": "node drive/backupDb"
+    "test-sequelize": "node tests/sequelize.js"
   },
   "dependencies": {
     "@formulajs/formulajs": "^2.6.1",
-    "archiver": "5.0.2",
-    "archiver-zip-encrypted": "1.0.8",
     "axios": "^0.20.0",
     "bcrypt": "^5.0.0",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "cron": "^1.8.2",
     "dayjs": "^1.9.1",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.3",
     "express": "^4.17.1",
-    "googleapis": "59.0.0",
     "joi": "^17.2.0",
     "jsonwebtoken": "^8.5.1",
     "nodemailer": "^6.4.10",
@@ -56,12 +40,10 @@
     "passport-jwt": "^4.0.0",
     "plaid": "^6.0.0",
     "sequelize": "^6.3.5",
-    "sqlite3": "^5.0.0",
     "pg": "8.3.3"
   },
   "devDependencies": {
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.4",
-    "sqlite": "^4.0.14"
+    "nodemon": "^2.0.4"
   }
 }

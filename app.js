@@ -1,6 +1,5 @@
 const express = require('express')
 const http = require('http')
-const https = require('https')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
@@ -12,7 +11,7 @@ app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(cors())
 
-let port = normalizePort(process.env.APP_PORT || '3000')
+let port = normalizePort(process.env.APP_PORT)
 app.set('port', port)
 
 let server = http.createServer(app)
@@ -22,10 +21,11 @@ require('./routes')(app)
 
 sequelize.sync({ force: false }).then(() => {
   // http server
-  // app.listen(config.port)
+  // app.listen(port)
   server.listen(port)
   server.on('error', onError)
   server.on('listening', onListening)
+  // console.log(process.env.CLIENT_ADDRESS)
 })
 
 /**
