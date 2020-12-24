@@ -20,6 +20,7 @@
     "update-transactions-sand": "PLAID_ENV=sandbox node tests/updateTransactions.js",
     "space-1": "",
     "test-plaid": "node tests/plaid.js",
+    "test-env": "node tests/writeEnvVar",
     "test-sequelize": "node tests/sequelize.js"
   },
   "dependencies": {

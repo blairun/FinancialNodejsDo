@@ -3,6 +3,7 @@ const path = require('path')
 const dotenv = require('dotenv')
 const envPath = path.resolve(__dirname, '../.env')
 
+// TODO !! save all tokens to db rather than .env
 module.exports = function (vars) {
   let current
   try {
@@ -11,8 +12,8 @@ module.exports = function (vars) {
     current = {}
   }
   Object.assign(current, vars)
-  const serlized = Object.keys(current)
+  const serialize = Object.keys(current)
     .map((key) => `${key}=${current[key]}`)
     .join(`\n`)
-  fs.writeFileSync(envPath, serlized)
+  fs.writeFileSync(envPath, serialize)
 }

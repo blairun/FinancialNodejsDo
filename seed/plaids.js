@@ -1,33 +1,26 @@
-require('dotenv').config()
-
-// Plaid sandbox tokens expire quickly, so these are likely invalid
+// Plaid sandbox tokens expire quickly, so saving them to the db would be pointless
 // For testing, it's easier to just add a new sandbox account using the web interface
 
 module.exports = [
   {
     UserID: 2,
     ItemName: 'usbank',
-    PlaidToken: process.env.sandbox_PLAID_TOKEN_usbank,
+    PlaidToken: 'abc1',
   },
   {
     UserID: 2,
     ItemName: 'american express',
-    PlaidToken: process.env.sandbox_PLAID_TOKEN_american_express,
+    PlaidToken: 'abc2',
   },
   {
     UserID: 3,
     ItemName: 'chase',
-    PlaidToken: process.env.sandbox_PLAID_TOKEN_chase,
-  },
-  {
-    UserID: 3,
-    ItemName: 'citi',
-    PlaidToken: process.env.sandbox_PLAID_TOKEN_citi,
+    PlaidToken: 'abc3',
   },
   {
     UserID: 3,
     ItemName: 'wells fargo',
-    PlaidToken: process.env.sandbox_PLAID_TOKEN_wells_fargo,
+    PlaidToken: 'abc4',
     // Hide means that the account transactions will be hidden in Transactions view
     Hide: true,
   },

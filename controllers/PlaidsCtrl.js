@@ -65,7 +65,7 @@ module.exports = {
 
   async update(req, res) {
     try {
-      // exhchange access token for public token
+      // exchange access token for public token
       // let publicToken = await this.plaidPublicToken()
       // console.log(publicToken)
       res.send({
@@ -117,7 +117,7 @@ module.exports = {
     // console.log(plaid[0].dataValues);
     // console.log(plaid);
     var plaidAccounts = plaid.map(function (d, i) {
-      // console.log(d.dataValues);
+      // console.log(d.dataValues)
       return {
         id: d.dataValues.id,
         account: d.dataValues.ItemName,

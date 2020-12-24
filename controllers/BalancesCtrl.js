@@ -155,16 +155,17 @@ module.exports = {
   async update(req, res) {
     userId = req.user.dataValues.id
     plaidEnv = req.user.dataValues.plaidEnv
-    // console.log(userId);
-    // console.log(plaidEnv);
+    // console.log(userId)
+    // console.log(plaidEnv)
     process.env.PLAID_ENV = plaidEnv
 
     // months to update
+    // FIXME months is always empty
     months = req.body
     // console.log(months)
 
     let plaidAccounts = await userPlaidAccounts(userId)
-    // console.log(plaidAccounts)
+    console.log(plaidAccounts)
 
     try {
       const finished = await updateBalances(plaidAccounts, userId)

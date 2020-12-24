@@ -45,14 +45,22 @@ const updateTransactions = async function (plaidAccounts, userId, months = 1) {
     })
 
     // delete pending transactions that have cleared
-    // in some cases plaid can't match pending and cleared, so you'll have to manually delete pending from db
-    let sqlCleanup = `DELETE FROM Transactions
-    WHERE TransactionID IN (
-        SELECT t1.TransactionID
-        FROM Transactions t1
-        INNER JOIN
-        Transactions t2 ON (t1.TransactionID = t2.PendingTransactionID) 
-        WHERE t2.PendingTransactionID IS NOT NULL AND t2.UserID = ${userId})`
+    // in some cases plaid can't match pending and cleared,
+    // so you'll have to manually delete those pending transactions from db
+    let sqlCleanup = `delete
+      from
+        public."Transactions" a
+      where
+        a."TransactionID" in (
+        select
+          t."TransactionID"
+        from
+          public."Transactions" t
+        inner join public."Transactions" tt on
+          (t."TransactionID" = tt."PendingTransactionID")
+        where
+          tt."PendingTransactionID" is not null
+          and tt."UserID" = ${userId})`
 
     await sequelize.query(sqlCleanup, {
       type: QueryTypes.DELETE,

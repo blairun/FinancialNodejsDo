@@ -40,8 +40,12 @@ const updateBalances = async function (plaidAccounts, userId) {
 module.exports.updateBalances = updateBalances
 
 async function assetDepreciation() {
-  let sql = `SELECT * FROM AccountMeta 
-            WHERE Cost > 0;`
+  let sql = `select
+      *
+    from
+      public."AccountMeta" am
+    where
+      am."Cost" > 0`
   res = await sequelize.query(sql, {
     type: QueryTypes.SELECT,
   })
@@ -54,9 +58,12 @@ async function assetDepreciation() {
     newValue = newValue.toFixed(0)
     // console.log(newValue);
 
-    let sql1 = `UPDATE AccountMeta 
-    SET BackupAmount = ${newValue}
-    WHERE id = ${e.id}`
+    let sql1 = `update
+        public."AccountMeta"
+      set
+        "BackupAmount" = ${newValue}
+      where
+        id = ${e.id}`
 
     result = await sequelize.query(sql1, {
       type: QueryTypes.UPDATE,
@@ -76,21 +83,28 @@ async function insertOrphans(balancesDate, userId) {
   let sql1 =
     // select metadata with no matching entry in balance table, only for this batch of balance data
     // if an account is reconnected, then you could go into balance and metadata table and rekey all account IDs
-    `SELECT *,
-      t1.id AS id,
-      t1.UserID as UserID,
-      t1.AccountID as AccountID
-      FROM AccountMeta t1
-      LEFT JOIN 
-      (SELECT *
-        From Balances
-            WHERE RetrievalDate = "${balancesDate}"
-            )
-            t2 ON t1.AccountID = t2.AccountID
-            WHERE t2.AccountID IS NULL AND t1.Closed IS NOT TRUE AND t1.UserID = "${userId}"`
+    `select
+        *,
+        am.id as id,
+        am."UserID" as "UserID",
+        am."AccountID" as "AccountID"
+      from
+        public."AccountMeta" as am
+      left join (
+        select
+          *
+        from
+          public."Balances" as i
+        where
+          i."RetrievalDate" = '${balancesDate}') as b on
+        am."AccountID" = b."AccountID"
+      where
+        b."AccountID" is null
+        and am."Closed" is not true
+        and am."UserID" = ${userId}`
 
   // closed/inactive/expired accounts handled in metadata table:
-  // once Vacuna mortgage ends, mark Closed as true (1) in metadata,
+  // e.g. once mortgage ends, mark Closed as true (1) in metadata,
   // which prevents it being added to Balances table in the future
 
   // first pull in account metadata for accounts that don't have a match

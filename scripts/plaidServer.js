@@ -76,14 +76,13 @@ function saveAccessToken(token) {
 
 app.get('/close_server', function (request, response, next) {
   console.log('closing server')
-  var child = exec(`forever stop scripts/plaidServer.js`, function (
-    err,
-    stdout,
-    stderr
-  ) {
-    if (err) throw err
-    else console.log(stdout)
-  })
+  var child = exec(
+    `forever stop scripts/plaidServer.js`,
+    function (err, stdout, stderr) {
+      if (err) throw err
+      else console.log(stdout)
+    }
+  )
 })
 
 // Exchange token flow - exchange a Link public_token for
@@ -199,22 +198,25 @@ app.get('/auth', function (request, response, next) {
 })
 
 // reset login to test Update Mode in sandbox environment
+// save sandbox token that you want to invalidate to .env
+// then run plaid sandbox server and use press reset login button
+// then test reconnection functionality in frontend interface
 app.get('/reset_login', function (request, response, next) {
   console.log('reset_login')
-  client.resetLogin(process.env.sandbox_PLAID_TOKEN_citi, function (
-    err,
-    reset_login_response
-  ) {
-    // Handle err
-    if (err != null) {
-      console.log(JSON.stringify(err))
-      // reset_login_response.json({
-      //   error: JSON.stringify(err),
-      // })
-    } else {
-      console.log(reset_login_response)
+  client.resetLogin(
+    process.env.PLAID_TOKEN_bankname,
+    function (err, reset_login_response) {
+      // Handle err
+      if (err != null) {
+        console.log(JSON.stringify(err))
+        // reset_login_response.json({
+        //   error: JSON.stringify(err),
+        // })
+      } else {
+        console.log(reset_login_response)
+      }
     }
-  })
+  )
 })
 
 // Create a one-time use public_token for the Item.
@@ -223,22 +225,22 @@ app.get('/reset_login', function (request, response, next) {
 app.get('/create_public_token', function (request, response, next) {
   // console.log("create_public_token");
   // replace the with the access token of the item you want to renew
-  client.createPublicToken(process.env.PLAID_broken_access_token, function (
-    err,
-    res
-  ) {
-    if (err != null) {
-      console.log(JSON.stringify(err))
-      response.json({ error: JSON.stringify(err) })
-    } else {
-      // Use the public_token to initialize Link
-      var PUBLIC_TOKEN = res.public_token
-      response.json({ public_token: PUBLIC_TOKEN })
-      // console.log(PUBLIC_TOKEN)
-      // savePublicToken(PUBLIC_TOKEN)
-      return PUBLIC_TOKEN
+  client.createPublicToken(
+    process.env.PLAID_broken_access_token,
+    function (err, res) {
+      if (err != null) {
+        console.log(JSON.stringify(err))
+        response.json({ error: JSON.stringify(err) })
+      } else {
+        // Use the public_token to initialize Link
+        var PUBLIC_TOKEN = res.public_token
+        response.json({ public_token: PUBLIC_TOKEN })
+        // console.log(PUBLIC_TOKEN)
+        // savePublicToken(PUBLIC_TOKEN)
+        return PUBLIC_TOKEN
+      }
     }
-  })
+  )
 })
 
 //remove item
@@ -288,21 +290,23 @@ app.get('/assets', function (request, response, next) {
       email: 'alice@example.com',
     },
   }
-  client.createAssetReport([ACCESS_TOKEN], daysRequested, options, function (
-    error,
-    assetReportCreateResponse
-  ) {
-    if (error != null) {
-      prettyPrintResponse(error)
-      return response.json({
-        error: error,
-      })
-    }
-    prettyPrintResponse(assetReportCreateResponse)
+  client.createAssetReport(
+    [ACCESS_TOKEN],
+    daysRequested,
+    options,
+    function (error, assetReportCreateResponse) {
+      if (error != null) {
+        prettyPrintResponse(error)
+        return response.json({
+          error: error,
+        })
+      }
+      prettyPrintResponse(assetReportCreateResponse)
 
-    var assetReportToken = assetReportCreateResponse.asset_report_token
-    respondWithAssetReport(20, assetReportToken, client, response)
-  })
+      var assetReportToken = assetReportCreateResponse.asset_report_token
+      respondWithAssetReport(20, assetReportToken, client, response)
+    }
+  )
 })
 
 // Retrieve information about an Item
@@ -318,24 +322,24 @@ app.get('/item', function (request, response, next) {
       })
     }
     // Also pull information about the institution
-    client.getInstitutionById(itemResponse.item.institution_id, function (
-      err,
-      instRes
-    ) {
-      if (err != null) {
-        var msg = 'Unable to pull institution information from the Plaid API.'
-        console.log(msg + '\n' + JSON.stringify(error))
-        return response.json({
-          error: msg,
-        })
-      } else {
-        prettyPrintResponse(itemResponse)
-        response.json({
-          item: itemResponse.item,
-          institution: instRes.institution,
-        })
+    client.getInstitutionById(
+      itemResponse.item.institution_id,
+      function (err, instRes) {
+        if (err != null) {
+          var msg = 'Unable to pull institution information from the Plaid API.'
+          console.log(msg + '\n' + JSON.stringify(error))
+          return response.json({
+            error: msg,
+          })
+        } else {
+          prettyPrintResponse(itemResponse)
+          response.json({
+            item: itemResponse.item,
+            institution: instRes.institution,
+          })
+        }
       }
-    })
+    )
   })
 })
 
@@ -364,48 +368,48 @@ var respondWithAssetReport = (
     })
   }
 
-  client.getAssetReport(assetReportToken, function (
-    error,
-    assetReportGetResponse
-  ) {
-    if (error != null) {
-      prettyPrintResponse(error)
-      if (error.error_code == 'PRODUCT_NOT_READY') {
-        setTimeout(
-          () =>
-            respondWithAssetReport(
-              --numRetriesRemaining,
-              assetReportToken,
-              client,
-              response
-            ),
-          1000
-        )
-        return
-      }
-
-      return response.json({
-        error: error,
-      })
-    }
-
-    client.getAssetReportPdf(assetReportToken, function (
-      error,
-      assetReportGetPdfResponse
-    ) {
+  client.getAssetReport(
+    assetReportToken,
+    function (error, assetReportGetResponse) {
       if (error != null) {
+        prettyPrintResponse(error)
+        if (error.error_code == 'PRODUCT_NOT_READY') {
+          setTimeout(
+            () =>
+              respondWithAssetReport(
+                --numRetriesRemaining,
+                assetReportToken,
+                client,
+                response
+              ),
+            1000
+          )
+          return
+        }
+
         return response.json({
           error: error,
         })
       }
 
-      response.json({
-        error: null,
-        json: assetReportGetResponse.report,
-        pdf: assetReportGetPdfResponse.buffer.toString('base64'),
-      })
-    })
-  })
+      client.getAssetReportPdf(
+        assetReportToken,
+        function (error, assetReportGetPdfResponse) {
+          if (error != null) {
+            return response.json({
+              error: error,
+            })
+          }
+
+          response.json({
+            error: null,
+            json: assetReportGetResponse.report,
+            pdf: assetReportGetPdfResponse.buffer.toString('base64'),
+          })
+        }
+      )
+    }
+  )
 }
 
 app.post('/set_access_token', function (request, response, next) {
