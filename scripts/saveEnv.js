@@ -3,7 +3,6 @@ const path = require('path')
 const dotenv = require('dotenv')
 const envPath = path.resolve(__dirname, '../.env')
 
-// TODO !! save all tokens to db rather than .env
 module.exports = function (vars) {
   let current
   try {

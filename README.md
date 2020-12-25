@@ -1,6 +1,6 @@
 # Getting Started
 
-TODO !! May be easier to explain everything in client README rather than splitting it between two repos.
+TODO ! May be easier to explain DigitalOcean app deployment in client README rather than splitting explanation between two repos.
 
 
 These steps will get the FinancialVue backend server application running for you using DigitalOcean.
@@ -37,19 +37,19 @@ TODO Would probably be a better experience to use the digitalocean command line 
 
 https://www.digitalocean.com/docs/app-platform/references/app-specification-reference/
 
-- `PLAID_CLIENT_ID`
+- `PLAID_CLIENT_ID` (see https://dashboard.plaid.com/overview/development)
+- `PLAID_PUBLIC_KEY`
 - `PLAID_SECRET_development`
 - `PLAID_SECRET_sandbox`
-- `PLAID_PUBLIC_KEY`
 - `PLAID_ENV=sandbox`
-- `TINGO_MARKET_DATA`
+- `TINGO_MARKET_DATA` (optional)
 - `APP_PORT=3000`
-- `DB_NAME`
+- `DB_NAME` (db connection params are on the DigitalOcean app dashboard)
 - `DB_USER`
 - `DB_PASS`
 - `DB_HOST`
 - `DB_PORT`
-- `JWT_SECRET`
+- `JWT_SECRET` (set by developer)
 - `CLIENT_ADDRESS=http://localhost:8080`
 
 ## Making Changes to Your App ##

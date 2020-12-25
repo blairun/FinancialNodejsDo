@@ -165,7 +165,7 @@ module.exports = {
     // console.log(months)
 
     let plaidAccounts = await userPlaidAccounts(userId)
-    console.log(plaidAccounts)
+    // console.log(plaidAccounts)
 
     try {
       const finished = await updateBalances(plaidAccounts, userId)

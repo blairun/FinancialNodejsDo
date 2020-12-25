@@ -1,10 +1,8 @@
 const dayjs = require('dayjs')
 const { developmentClient, sandboxClient } = require('./plaidClient')
 const { plaidPublicToken } = require('../controllers/PlaidsCtrl')
-const nodemailer = require('nodemailer')
 const transactionError = require('./plaidError')
 const balanceError = require('./plaidError')
-const saveEnv = require('./saveEnv')
 
 const plaidClient = function () {
   // default to plaid dev environment
@@ -15,36 +13,19 @@ const plaidClient = function () {
   return client
 }
 
-async function plaidError(account, err) {
-  // Handle plaid update errors by saving account info that will be needed to update credentials
-  console.log(`Saving broken account: ${account}`)
-  saveEnv({
-    [`PLAID_broken_account`]: account,
-  })
-  console.log('Saved.')
-  console.log()
+async function plaidError(account, token, err) {
+  // Handle plaid update errors. Get public token to refresh credentials
+  // and save plaid error message
+  // console.log(`broken account: ${account}`)
+  // console.log(`broken access token: ${token}`)
 
-  account = account.replace(/ /g, '_')
-  // console.log(account)
-  let token = process.env[`PLAID_TOKEN_${account}`]
-  if (process.env.PLAID_ENV === 'sandbox') {
-    token = process.env[`sandbox_PLAID_TOKEN_${account}`]
-  }
-  console.log(`Saving broken access token: ${token}`)
-  saveEnv({
-    [`PLAID_broken_access_token`]: token,
-  })
-  console.log('Saved.')
-  console.log()
-
-  // trade broken access token for public token
-  await plaidPublicToken()
+  // trade broken access token for public token (publicToken saved in plaidPublicToken function)
+  await plaidPublicToken(token)
 
   const error = `${account.toUpperCase()} - ${err.error_code}\n${
     err.error_message
   }`
   // console.log(error);
-  exports.emailer('Plaid Error', error)
   return error
 }
 
@@ -77,8 +58,8 @@ exports.fetchTransactions = async function (plaidAccounts, userId, months) {
           // console.log(account)
           if (err != null) {
             let error = await plaidError(account, err)
-            transactionError.set(error)
-            console.log(`transactions error:: ${transactionError.err}`)
+            transactionError.err = error
+            console.log(`transactions error: ${transactionError.err}`)
             return
           }
           // console.log(res);
@@ -150,9 +131,9 @@ exports.getAccounts = async function (plaidAccounts, userId) {
       // client.getBalance(token, async (err, res) => {
       client.getAccounts(token, async (err, res) => {
         if (err != null) {
-          let error = await plaidError(account, err)
-          balanceError.set(error)
-          console.log(`balance error:: ${balanceError.err}`)
+          let error = await plaidError(account, token, err)
+          balanceError.err = error
+          console.log(`balance error: ${balanceError.err}`)
           // return
         }
         // console.log(account);
@@ -198,84 +179,4 @@ exports.getAccounts = async function (plaidAccounts, userId) {
       )
     )
   }, [])
-}
-
-// realtime values for individual accounts (not used)
-exports.fetchItemBalances = async function (itemToken) {
-  try {
-    // console.log("top1");
-    return new Promise((resolve, reject) => {
-      // console.log("top2");
-      let client = plaidClient()
-      client.getBalance(itemToken, (err, result) => {
-        // Handle err
-        if (err != null) {
-          const tokenToAccount = plaidAccountTokens.find(
-            ({ token }) => token === itemToken
-          )
-          var error =
-            // account.toUpperCase() +
-            tokenToAccount.account.toUpperCase() +
-            ' / Balances / ' +
-            err.error_code +
-            ': ' +
-            err.error_message
-          console.log(error)
-        } else {
-          // return accounts
-          // console.log(result);
-          const accounts = result.accounts
-          // console.log(accounts);
-          var balanceArray = accounts.map(({ name, account_id, balances }) => ({
-            account_id,
-            name,
-            available_balance: balances.available,
-            current_balance: balances.current,
-            limit: balances.limit,
-            date: dayjs().format('M/D/Y'),
-          }))
-          // console.log(balanceArray)
-          // return balanceArray
-          resolve(balanceArray)
-        }
-      })
-    })
-  } catch (error) {
-    // console.log(error)
-  }
-}
-
-// async..await is not allowed in global scope, must use a wrapper
-exports.emailer = async function (subject, body) {
-  // Generate test SMTP service account from ethereal.email
-  // Only needed if you don't have a real mail account for testing
-  let testAccount = await nodemailer.createTestAccount()
-
-  // create reusable transporter object using the default SMTP transport
-  let transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // true for 465, false for other ports
-    auth: {
-      user: `${process.env.GMAIL_USER}@gmail.com`, // generated ethereal user
-      pass: process.env.GMAIL_APP_PASS, // generated ethereal password
-      // https://stackoverflow.com/questions/26736062/sending-email-fails-when-two-factor-authentication-is-on-for-gmail
-    },
-  })
-
-  // send mail with defined transport object
-  let info = await transporter.sendMail({
-    from: `"me 👻" <${process.env.GMAIL_USER}@gmail.com>`, // sender address
-    to: `${process.env.GMAIL_USER}+automated_finances@gmail.com`, // list of receivers
-    subject: subject, // Subject line
-    text: body, // plain text body
-    // html: "<b>Hello world?</b>" // html body
-  })
-
-  console.log('Message sent: %s', info.messageId)
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-  // Preview only available when sending through an Ethereal account
-  // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 }

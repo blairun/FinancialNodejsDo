@@ -3,7 +3,6 @@ const { Plaid, AccountMeta } = require('../models')
 const { developmentClient, sandboxClient } = require('../scripts/plaidClient')
 const util = require('util')
 const sqlSend = require('./sqlSend')
-const saveEnv = require('../scripts/saveEnv')
 const transactionError = require('../scripts/plaidError')
 const balanceError = require('../scripts/plaidError')
 
@@ -129,24 +128,19 @@ module.exports = {
     return plaidAccounts
   },
 
-  async plaidPublicToken() {
+  async plaidPublicToken(brokenAccessToken) {
     const client = plaidClient()
-    // console.log(process.env.PLAID_broken_access_token)
     return client.createPublicToken(
-      process.env.PLAID_broken_access_token,
-      async function (err, res) {
+      brokenAccessToken,
+      await function (err, res) {
         if (err != null) {
           // console.log('nope')
           console.log(JSON.stringify(err))
         } else {
           // Use the public_token to initialize Link
           var PUBLIC_TOKEN = res.public_token
-          // console.log(`Saving broken public token: ${PUBLIC_TOKEN}`)
-          saveEnv({
-            [`PLAID_broken_public_token`]: PUBLIC_TOKEN,
-          })
-          // console.log('Saved.')
-          // console.log()
+          console.log(`Saving broken public token: ${PUBLIC_TOKEN}`)
+
           balanceError.publicToken = PUBLIC_TOKEN
           transactionError.publicToken = PUBLIC_TOKEN
           return PUBLIC_TOKEN
