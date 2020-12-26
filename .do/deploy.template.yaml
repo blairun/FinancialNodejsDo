@@ -1,10 +1,10 @@
 spec:
-  name: FinancialVueDo
+  name: financial-vue-do
   databases:
     - name: db
       engine: PG
   services:
-    - name: FinancialVueBeDo
+    - name: financial-vue-be-do
       environment_slug: node-js
       github:
         branch: main
@@ -27,13 +27,18 @@ spec:
           scope: RUN_AND_BUILD_TIME
           type: SECRET
           value:
+        - key: PLAID_SECRET_development
+          scope: RUN_AND_BUILD_TIME
+          type: SECRET
+          value:
+        - key: JWT_SECRET
+          scope: RUN_AND_BUILD_TIME
+          type: SECRET
+          value: your_password
         - key: TIINGO_API_KEY
           scope: RUN_AND_BUILD_TIME
           type: SECRET
-          value: optional
-        - key: APP_PORT
-          scope: RUN_AND_BUILD_TIME
-          value: '8080'
+          value:
         - key: DB_NAME
           scope: RUN_AND_BUILD_TIME
           value: ${db.DATABASE}
@@ -49,14 +54,9 @@ spec:
         - key: DB_PORT
           scope: RUN_AND_BUILD_TIME
           value: ${db.PORT}
-        - key: JWT_SECRET
+        - key: APP_PORT
           scope: RUN_AND_BUILD_TIME
-          type: SECRET
-          value:
-        - key: PLAID_SECRET_development
-          scope: RUN_AND_BUILD_TIME
-          type: SECRET
-          value:
+          value: '8080'
         - key: CLIENT_ADDRESS
           scope: RUN_AND_BUILD_TIME
           value: ${financial-vue-do.PUBLIC_URL}

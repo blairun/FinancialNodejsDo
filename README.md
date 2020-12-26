@@ -5,7 +5,7 @@ This is the backend server code for [FinancialVue](https://github.com/blairun/Fi
 ---
 ## Local Development
 
-**Note: To work properly this app needs to run in conjuction with the frontend client: [FinancialVueDo](https://github.com/blairun/FinancialVueDo).**
+**Note: To work properly this app needs to run in conjuction with the frontend client [FinancialVueDo](https://github.com/blairun/FinancialVueDo).**
 
 Run `yarn install` in to install Node.js dependencies.
 
