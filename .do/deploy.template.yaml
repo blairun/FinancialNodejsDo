@@ -18,7 +18,7 @@ spec:
         - key: PLAID_CLIENT_ID
           scope: RUN_AND_BUILD_TIME
           type: SECRET
-          value:
+          value: your_plaid_developer_credentials
         - key: PLAID_PUBLIC_KEY
           scope: RUN_AND_BUILD_TIME
           type: SECRET
@@ -38,7 +38,7 @@ spec:
         - key: TIINGO_API_KEY
           scope: RUN_AND_BUILD_TIME
           type: SECRET
-          value:
+          value: optional
         - key: DB_NAME
           scope: RUN_AND_BUILD_TIME
           value: ${db.DATABASE}
