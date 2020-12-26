@@ -1,8 +1,59 @@
 spec:
   name: FinancialVueBeDo
   services:
-    - environment_slug: node-js
-      git:
+    - name: FinancialVueBeDo
+      environment_slug: node-js
+      github:
         branch: main
-        repo_clone_url: https://github.com/blairun/FinancialVueBeDo.git
-      name: FinancialVueBeDo
+        deploy_on_push: true
+        repo: blairun/FinancialVueBeDo
+      routes:
+        - path: /api
+      http_port: 8080
+      run_command: yarn start
+      envs:
+        - key: PLAID_CLIENT_ID
+          scope: RUN_AND_BUILD_TIME
+          type: SECRET
+          value:
+        - key: PLAID_PUBLIC_KEY
+          scope: RUN_AND_BUILD_TIME
+          type: SECRET
+          value:
+        - key: PLAID_SECRET_sandbox
+          scope: RUN_AND_BUILD_TIME
+          type: SECRET
+          value:
+        - key: TIINGO_API_KEY
+          scope: RUN_AND_BUILD_TIME
+          type: SECRET
+          value: optional
+        - key: APP_PORT
+          scope: RUN_AND_BUILD_TIME
+          value: '8080'
+        - key: DB_NAME
+          scope: RUN_AND_BUILD_TIME
+          value: ${db.DATABASE}
+        - key: DB_USER
+          scope: RUN_AND_BUILD_TIME
+          value: ${db.USERNAME}
+        - key: DB_PASS
+          scope: RUN_AND_BUILD_TIME
+          value: ${db.PASSWORD}
+        - key: DB_HOST
+          scope: RUN_AND_BUILD_TIME
+          value: ${db.HOSTNAME}
+        - key: DB_PORT
+          scope: RUN_AND_BUILD_TIME
+          value: ${db.PORT}
+        - key: JWT_SECRET
+          scope: RUN_AND_BUILD_TIME
+          type: SECRET
+          value:
+        - key: PLAID_SECRET_development
+          scope: RUN_AND_BUILD_TIME
+          type: SECRET
+          value:
+        - key: CLIENT_ADDRESS
+          scope: RUN_AND_BUILD_TIME
+          value: ${financial-vue-do.PUBLIC_URL}

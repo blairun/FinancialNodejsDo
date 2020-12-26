@@ -136,7 +136,7 @@ module.exports = {
   async marketData(req, res) {
     try {
       // https://api.tiingo.com/documentation/end-of-day
-      let token = process.env.TINGO_MARKET_DATA
+      let token = process.env.TIINGO_API_KEY
       const response = await axios.get(
         `https://api.tiingo.com/tiingo/daily/TRRMX/prices?startDate=2020-01-01&columns=close&token=${token}`
       )
