@@ -54,7 +54,7 @@ spec:
         - key: DB_PORT
           scope: RUN_AND_BUILD_TIME
           value: ${db.PORT}
-        - key: PORT
+        - key: APP_PORT
           scope: RUN_AND_BUILD_TIME
           value: '8080'
         - key: CLIENT_ADDRESS
