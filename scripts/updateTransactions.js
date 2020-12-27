@@ -18,10 +18,8 @@ const updateTransactions = async function (plaidAccounts, userId, months = 1) {
     const transactions = await fetchTransactions(plaidAccounts, userId, months)
     // console.log(transactions)
 
-    // Pulls in last month(s) of data; prevents duplicate TransactionsIDs (check in sqlitestudio)
-    // Previously done by manually setting option to constrain transactionIDs to be Unique with Replace on Conflict option
-    // Currently done with via sequelize bulk insert: https://stackoverflow.com/questions/48124949/nodejs-sequelize-bulk-upsert
-    // bringing in 6 months of data twice a day would have created 100+ MB / year of data without much benefit
+    // Pulls in last month(s) of data; prevents duplicate TransactionsIDs (check in dbeaver)
+    // Via sequelize bulk insert: https://stackoverflow.com/questions/48124949/nodejs-sequelize-bulk-upsert
 
     await Transaction.bulkCreate(transactions, {
       // updates existing rows rather than adding new rows, updates only named fields

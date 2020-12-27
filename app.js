@@ -11,7 +11,7 @@ app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(cors())
 
-let port = normalizePort(process.env.APP_PORT)
+let port = normalizePort(process.env.PORT)
 app.set('port', port)
 
 let server = http.createServer(app)

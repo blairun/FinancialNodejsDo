@@ -13,7 +13,7 @@ module.exports = [
     Current: 1112,
     Limit: 1113,
     Type: 'depository',
-    Subtype: 'Subtype',
+    Subtype: 'checking',
     RetrievalDate: date1,
   },
   {
@@ -25,7 +25,7 @@ module.exports = [
     Current: 2222,
     Limit: 2223,
     Type: 'depository',
-    Subtype: 'Subtype',
+    Subtype: 'asset',
     RetrievalDate: date1,
   },
   {
@@ -37,7 +37,7 @@ module.exports = [
     Current: 3000,
     Limit: 3000,
     Type: 'loan',
-    Subtype: 'Subtype',
+    Subtype: 'vehicle loan',
     RetrievalDate: date1,
   },
   {
@@ -49,7 +49,7 @@ module.exports = [
     Current: 2000,
     Limit: 2000,
     Type: 'Asset',
-    Subtype: 'Subtype',
+    Subtype: 'HSA',
     RetrievalDate: date1,
   },
   /////////////////////////////////////////////////////////////////
