@@ -16,7 +16,7 @@ module.exports = [
     Year: year,
     Name: 'User 1 HSA',
     Start: 1000,
-    Add: 2000,
+    Add: 3000,
     Order: 2,
     Notes: '= Goal note',
   },

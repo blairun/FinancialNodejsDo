@@ -7,22 +7,6 @@ const { userPlaidAccounts } = require('./PlaidsCtrl')
 const balanceError = require('../scripts/plaidError')
 
 module.exports = {
-  // async index(req, res) {
-  //   try {
-  //     let balances = null;
-
-  //     balances = await Balance.findAll({
-  //       limit: 10,
-  //     });
-
-  //     res.send(balances);
-  //   } catch (err) {
-  //     res.status(500).send({
-  //       error: "an error has occured trying to fetch the balances",
-  //     });
-  //   }
-  // },
-
   async current(req, res) {
     // latest balance data (including missing plaid data that was inserted from metatdata table)
     let sql = `select
@@ -134,11 +118,14 @@ module.exports = {
   },
 
   async marketData(req, res) {
+    console.log(req.body.marketIndex)
+    let marketIndex = req.body.marketIndex
+    // console.log(marketIndex)
     try {
       // https://api.tiingo.com/documentation/end-of-day
       let token = process.env.TIINGO_API_KEY
       const response = await axios.get(
-        `https://api.tiingo.com/tiingo/daily/TRRMX/prices?startDate=2020-01-01&columns=close&token=${token}`
+        `https://api.tiingo.com/tiingo/daily/${marketIndex}/prices?startDate=2020-01-01&columns=close&token=${token}`
       )
       // console.log(response);
       res.json({
@@ -158,11 +145,6 @@ module.exports = {
     // console.log(userId)
     // console.log(plaidEnv)
     process.env.PLAID_ENV = plaidEnv
-
-    // months to update
-    // FIXME months is always empty
-    months = req.body
-    // console.log(months)
 
     let plaidAccounts = await userPlaidAccounts(userId)
     // console.log(plaidAccounts)

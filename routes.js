@@ -26,7 +26,7 @@ module.exports = (app) => {
   app.get('/balances_update', isAuthenticated, BalancesCtrl.update)
   // app.get("/balances_update/:id", isAuthenticated, BalancesCtrl.update);
   app.get('/balances_error', isAuthenticated, BalancesCtrl.error)
-  app.get('/market_data', isAuthenticated, BalancesCtrl.marketData)
+  app.post('/market_data', isAuthenticated, BalancesCtrl.marketData)
   // app.get("/balances", isAuthenticated, BalancesCtrl.index);
 
   // current transaction data

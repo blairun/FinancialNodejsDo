@@ -22,11 +22,15 @@ async function plaidError(account, token, err) {
   // trade broken access token for public token (publicToken saved in plaidPublicToken function)
   await plaidPublicToken(token)
 
-  const error = `${account.toUpperCase()} - ${err.error_code}\n${
-    err.error_message
-  }`
-  // console.log(error);
-  return error
+  try {
+    const error = `${account.toUpperCase()} - ${err.error_code}\n${
+      err.error_message
+    }`
+    // console.log(error);
+    return error
+  } catch (errr) {
+    return errr
+  }
 }
 
 exports.fetchTransactions = async function (plaidAccounts, userId, months) {
