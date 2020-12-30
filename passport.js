@@ -6,6 +6,8 @@ const ExtractJwt = require('passport-jwt').ExtractJwt
 
 const config = require('./config/config')
 
+// Review security best practices. Like encrypting more user data in db.
+
 passport.use(
   new JwtStrategy(
     {

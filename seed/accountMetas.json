@@ -2,38 +2,47 @@
   {
     "UserID": 1,
     "AccountID": "AccountID1",
-    "Institution": "bank 1",
+    "Institution": "Bank A",
     "FriendlyName": "checking",
-    "BackupType": "Asset",
     "BackupAmount": 1111,
-    "GoalID": 1
+    "GoalID": 1,
+    "Order": 1
   },
   {
     "UserID": 1,
     "AccountID": "AccountID2",
-    "Institution": "bank 2",
-    "FriendlyName": "HSA",
-    "BackupAmount": 1000,
-    "BackupType": "HSA",
-    "Link": "https://www.bank2.com/",
-    "GoalID": 2
+    "Institution": "Bank A",
+    "FriendlyName": "credit",
+    "BackupAmount": 1111,
+    "Order": 2
   },
   {
     "UserID": 1,
     "AccountID": "AccountID3",
-    "Institution": "Bank 3",
-    "FriendlyName": "Loan",
-    "BackupAmount": 1000,
-    "BackupType": "Loan",
-    "Link": "https://www.bank3.com/"
+    "Institution": "Bank B",
+    "FriendlyName": "HSA",
+    "BackupType": "HSA",
+    "Link": "https://www.bankb.com/",
+    "GoalID": 2,
+    "Order": 3
   },
   {
     "UserID": 1,
     "AccountID": "AccountID4",
     "Institution": "Assets",
     "FriendlyName": "Car",
-    "BackupType": "Credit",
-    "BackupAmount": 1111
+    "BackupAmount": 1111,
+    "Order": 4
+  },
+  {
+    "UserID": 1,
+    "AccountID": "AccountID5",
+    "Institution": "Bank C",
+    "FriendlyName": "Loan",
+    "BackupAmount": 1000,
+    "BackupType": "Loan",
+    "Link": "https://www.bankc.com/",
+    "Order": 5
   },
   {
     "UserID": 2,

@@ -2,6 +2,7 @@ const dayjs = require('dayjs')
 const date1 = dayjs().format('YYYY-MM-DD')
 const date2 = dayjs().subtract(1, 'months').format('YYYY-MM-DD')
 const date3 = dayjs().subtract(2, 'months').format('YYYY-MM-DD')
+const date4 = dayjs().subtract(3, 'months').format('YYYY-MM-DD')
 const retrievalDate = dayjs().format()
 
 module.exports = [
@@ -13,12 +14,12 @@ module.exports = [
     Description: 'Transaction 1 Description',
     Amount: -100,
     Category: 'Shops,Hardware Store',
-    Pending: 0,
+    Pending: 1,
     RetrievalDate: retrievalDate,
   },
   {
     UserID: 1,
-    AccountID: 'AccountID2',
+    AccountID: 'AccountID1',
     TransactionID: 2,
     TransactionDate: date1,
     Description: 'Transaction 2 Description',
@@ -29,7 +30,7 @@ module.exports = [
   },
   {
     UserID: 1,
-    AccountID: 'AccountID1',
+    AccountID: 'AccountID2',
     TransactionID: 3,
     TransactionDate: date1,
     Description: 'Transaction 3 Description',
@@ -53,18 +54,18 @@ module.exports = [
   },
   {
     UserID: 1,
-    AccountID: 'AccountID2',
+    AccountID: 'AccountID1',
     TransactionID: 5,
     TransactionDate: date2,
     Description: 'Transaction 5 Description',
-    Amount: 100,
+    Amount: 500,
     Category: 'Credit',
     Pending: 0,
     RetrievalDate: retrievalDate,
   },
   {
     UserID: 1,
-    AccountID: 'AccountID1',
+    AccountID: 'AccountID2',
     TransactionID: 6,
     TransactionDate: date2,
     Description: 'Transaction 6 Description',
@@ -88,23 +89,58 @@ module.exports = [
   },
   {
     UserID: 1,
-    AccountID: 'AccountID2',
+    AccountID: 'AccountID1',
     TransactionID: 8,
     TransactionDate: date3,
     Description: 'Transaction 8 Description',
-    Amount: 444,
+    Amount: 390,
     Category: 'Credit',
     Pending: 0,
     RetrievalDate: retrievalDate,
   },
   {
     UserID: 1,
-    AccountID: 'AccountID1',
+    AccountID: 'AccountID2',
     TransactionID: 9,
     TransactionDate: date3,
     Description: 'Transaction 9 Description',
     Amount: -250,
     Category: 'Service,Automotive,Maintenance and Repair',
+    Pending: 0,
+    RetrievalDate: retrievalDate,
+  },
+  ///////////////////////////////////////////////
+  ///////////////////////////////////////////////
+  {
+    UserID: 1,
+    AccountID: 'AccountID1',
+    TransactionID: 10,
+    TransactionDate: date4,
+    Description: 'Transaction 10 Description',
+    Amount: -99,
+    Category: 'Shops,Hardware Store',
+    Pending: 0,
+    RetrievalDate: retrievalDate,
+  },
+  {
+    UserID: 1,
+    AccountID: 'AccountID1',
+    TransactionID: 11,
+    TransactionDate: date4,
+    Description: 'Transaction 11 Description',
+    Amount: 511,
+    Category: 'Credit',
+    Pending: 0,
+    RetrievalDate: retrievalDate,
+  },
+  {
+    UserID: 1,
+    AccountID: 'AccountID2',
+    TransactionID: 12,
+    TransactionDate: date4,
+    Description: 'Transaction 12 Description',
+    Amount: -75,
+    Category: 'Service,Entertainment',
     Pending: 0,
     RetrievalDate: retrievalDate,
   },

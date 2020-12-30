@@ -118,7 +118,7 @@ module.exports = {
   },
 
   async marketData(req, res) {
-    console.log(req.body.marketIndex)
+    // console.log(req.body.marketIndex)
     let marketIndex = req.body.marketIndex
     // console.log(marketIndex)
     try {

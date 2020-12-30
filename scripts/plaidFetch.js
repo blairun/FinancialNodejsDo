@@ -184,3 +184,5 @@ exports.getAccounts = async function (plaidAccounts, userId) {
     )
   }, [])
 }
+
+// IDEA revive nodemailer

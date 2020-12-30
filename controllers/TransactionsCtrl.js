@@ -39,7 +39,7 @@ module.exports = {
 
     // months to update
     months = req.body.months
-    // console.log(`transaction months: ${months}`)
+    console.log(`transaction months: ${months}`)
 
     let plaidAccounts = await userPlaidAccounts(userId)
     // console.log(plaidAccounts)

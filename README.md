@@ -22,7 +22,7 @@ Create an `.env` file in the root directory. Variables in this file will be load
 - `DB_PASS=`
 - `DB_HOST=`
 - `DB_PORT=`
-- `APP_PORT=3000`
+- `APP_PORT=8880`
 - `CLIENT_ADDRESS=http://localhost:8080`
 
 Run `nodemon app.js` to serve and hot-reload the app.
