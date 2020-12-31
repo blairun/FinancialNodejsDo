@@ -4,6 +4,7 @@
     "AccountID": "AccountID1",
     "Institution": "Bank A",
     "FriendlyName": "checking",
+    "BackupType": "depository",
     "BackupAmount": 1111,
     "GoalID": 1,
     "Order": 1
@@ -13,7 +14,8 @@
     "AccountID": "AccountID2",
     "Institution": "Bank A",
     "FriendlyName": "credit",
-    "BackupAmount": 1111,
+    "BackupType": "credit",
+    "BackupAmount": 500,
     "Order": 2
   },
   {
@@ -21,7 +23,8 @@
     "AccountID": "AccountID3",
     "Institution": "Bank B",
     "FriendlyName": "HSA",
-    "BackupType": "HSA",
+    "BackupType": "asset",
+    "BackupAmount": 555,
     "Link": "https://www.bankb.com/",
     "GoalID": 2,
     "Order": 3
@@ -31,7 +34,8 @@
     "AccountID": "AccountID4",
     "Institution": "Assets",
     "FriendlyName": "Car",
-    "BackupAmount": 1111,
+    "BackupType": "vehicle",
+    "BackupAmount": 2000,
     "Order": 4
   },
   {
@@ -39,8 +43,8 @@
     "AccountID": "AccountID5",
     "Institution": "Bank C",
     "FriendlyName": "Loan",
-    "BackupAmount": 1000,
-    "BackupType": "Loan",
+    "BackupType": "loan",
+    "BackupAmount": 1999,
     "Link": "https://www.bankc.com/",
     "Order": 5
   },
@@ -49,7 +53,7 @@
     "Institution": "ABC",
     "FriendlyName": "Car",
     "BackupAmount": 1111,
-    "BackupType": "Asset",
+    "BackupType": "asset",
     "Cost": 2222,
     "Salvage": 555,
     "Life": 10,
@@ -60,7 +64,7 @@
     "Institution": "XYZ",
     "FriendlyName": "Car",
     "BackupAmount": 1111,
-    "BackupType": "Asset",
+    "BackupType": "asset",
     "Cost": 2222,
     "Salvage": 555,
     "Life": 10,
