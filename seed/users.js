@@ -6,12 +6,12 @@ module.exports = [
   },
   {
     username: 'test2',
-    email: 'test2@test.com',
+    email: 'test2@123.com',
     password: '12345678',
   },
   {
     username: 'test3',
-    email: 'test3@test.com',
+    email: 'test3@123.com',
     password: '12345678',
   },
   // Careful: This will use up your allotment of 100 plaid development bank accounts

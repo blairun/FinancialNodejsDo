@@ -22,7 +22,7 @@ var prettyPrintResponse = (response) => {
 module.exports = {
   async add(req, res) {
     try {
-      // exhchange public token for access token
+      // exchange public token for access token
       process.env.PLAID_ENV = req.user.dataValues.plaidEnv
       // console.log(process.env.PLAID_ENV)
       const client = plaidClient()
@@ -57,7 +57,7 @@ module.exports = {
       )
     } catch (error) {
       res.status(500).send({
-        error: 'an error has occured trying to add this item',
+        error: 'an error has occurred trying to add this item',
       })
     }
   },
@@ -73,12 +73,52 @@ module.exports = {
       })
     } catch (error) {
       res.status(500).send({
-        error: 'an error has occured trying to update this item',
+        error: 'an error has occurred trying to update this item',
       })
     }
   },
 
-  async remove(req, res) {},
+  async remove(req, res) {
+    id = req.body.plaidId
+    institution = req.body.accountName
+    // console.log(id)
+    if (id) {
+      try {
+        // destroy only works if cascade on delete is set for all affected tables
+        await Plaid.destroy({ where: { id: id } })
+        // hide plaid record
+        // await Plaid.update({ Hide: true }, { where: { id: id } })
+        // console.log('Removed Plaid Id ' + id)
+        res.send({
+          message: 'success',
+        })
+      } catch (e) {
+        let err = 'Error during Plaid Item deletion'
+        // console.log(err)
+        console.log(e)
+        res.status(500).send({
+          error: err,
+        })
+      }
+    } else {
+      console.log('No Plaid Id specified')
+      console.log('Trying to delete other Account data')
+      try {
+        // destroy only works if cascade on delete is set for all affected tables
+        await AccountMeta.destroy({ where: { Institution: institution } })
+        res.send({
+          message: 'success',
+        })
+      } catch (e) {
+        let err = 'Error during AccountMeta Item deletion'
+        // console.log(err)
+        console.log(e)
+        res.status(500).send({
+          error: err,
+        })
+      }
+    }
+  },
 
   async metas(req, res) {
     // account metadata for current user

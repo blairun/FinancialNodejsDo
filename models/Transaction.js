@@ -37,6 +37,8 @@ module.exports = (sequelize, DataTypes) => {
     Transaction.belongsTo(models.AccountMeta, {
       foreignKey: 'AccountID',
       targetKey: 'AccountID',
+      onDelete: 'CASCADE',
+      hooks: true,
     })
     Transaction.belongsTo(models.User, {
       foreignKey: 'UserID',

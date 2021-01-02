@@ -76,6 +76,8 @@ module.exports = (sequelize, DataTypes) => {
     AccountMeta.belongsTo(models.Plaid, {
       foreignKey: 'PlaidID',
       targetKey: 'id',
+      onDelete: 'CASCADE',
+      hooks: true,
     })
   }
 

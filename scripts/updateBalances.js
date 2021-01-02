@@ -31,7 +31,9 @@ const updateBalances = async function (plaidAccounts, userId) {
     // console.log('balances updated')
     return balancesDate
   } catch (error) {
-    console.log(error)
+    // console.log(error)
+    balanceError.err = ''
+    console.log(error.message)
   }
 }
 

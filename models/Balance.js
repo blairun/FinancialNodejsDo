@@ -24,6 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     Balance.belongsTo(models.AccountMeta, {
       foreignKey: 'AccountID',
       targetKey: 'AccountID',
+      onDelete: 'CASCADE',
+      hooks: true,
     })
     Balance.belongsTo(models.User, {
       foreignKey: 'UserID',

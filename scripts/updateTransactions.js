@@ -5,10 +5,8 @@ const { sequelize } = require('../models')
 const { Transaction } = require('../models')
 const { QueryTypes } = require('sequelize')
 
-// IDEA explore Plaid webhooks for realtime transaction updates
-// only usable if app is published on publicly accessible server
-// see ngrok or localtunnel for exposing localhost
-// https://www.youtube.com/watch?v=xl6ZrCQpwM0
+// IDEA ! Plaid webhooks for realtime transaction updates
+// only usable if app is published on publicly accessible server like DigitalOcean
 
 // IDEA use cron job to update transaction and balance data at regular intervals
 // https://www.digitalocean.com/community/questions/cron-jobs-for-app-platform
