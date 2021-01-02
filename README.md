@@ -28,3 +28,8 @@ Create an `.env` file in the root directory. Variables in this file will be load
 Run `nodemon app.js` to serve and hot-reload the app.
 
 Run `seed-db` to seed database with some sample data.
+
+---
+## License
+
+Chart.Annotation.js is available under the [MIT license](http://opensource.org/licenses/MIT).
