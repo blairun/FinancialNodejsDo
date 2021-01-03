@@ -32,4 +32,4 @@ Run `seed-db` to seed database with some sample data.
 ---
 ## License
 
-Chart.Annotation.js is available under the [MIT license](http://opensource.org/licenses/MIT).
+FinancialVue is available under the [MIT license](http://opensource.org/licenses/MIT).

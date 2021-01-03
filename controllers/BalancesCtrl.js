@@ -25,6 +25,7 @@ module.exports = {
         and b."RetrievalDate" = boo."Latest"
       inner join public."AccountMeta" as am on
         am."AccountID" = b."AccountID"
+        and am."Closed" is not true
       where
         b."UserID" = ${req.user.dataValues.id}`
 
@@ -55,6 +56,8 @@ module.exports = {
         b."UserID" = ${req.user.dataValues.id}
       order by
         b."RetrievalDate"`
+    // test how Closed not true affects historical data
+    // and am."Closed" is not true
     // limit date range to good values (e.g. starting Aug 20, 2020)
     //  WHERE b.RetrievalDate > "2020-08-20"`;
 

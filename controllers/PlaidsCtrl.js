@@ -129,9 +129,9 @@ module.exports = {
         public."AccountMeta" as am
       where
         am."UserID" = ${req.user.dataValues.id}
-        and am."Closed" is null
-      order by
+        order by
         LOWER(am."Institution")`
+    // and am."Closed" is null
 
     await sqlSend(res, sql, 'account metadata')
   },

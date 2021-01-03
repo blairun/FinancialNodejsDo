@@ -14,7 +14,12 @@ module.exports = [
     email: 'test3@123.com',
     password: '12345678',
   },
-  // Careful: This will use up your allotment of 100 plaid development bank accounts
+  {
+    username: 'empty',
+    email: '0@123.com',
+    password: '12345678',
+  },
+  // Careful: This will use up your allotment of 100 plaid development Items (bank accounts)
   // {
   //   username: 'me',
   //   email: 'me@real.com',
