@@ -9,6 +9,7 @@ const balanceError = require('../scripts/plaidError')
 module.exports = {
   async current(req, res) {
     // latest balance data (including missing plaid data that was inserted from metatdata table)
+    // testing code for supporting different databases
     let sql = `select
         *
       from
