@@ -8,6 +8,8 @@ const balanceError = require('../scripts/plaidError')
 
 module.exports = {
   async current(req, res) {
+    // testing main branch commit that will get pushed to both
+
     // latest balance data (including missing plaid data that was inserted from metatdata table)
     // testing code for supporting different databases
     let sql = `select
