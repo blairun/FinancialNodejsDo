@@ -5,6 +5,7 @@ const balanceError = require('./plaidError')
 const { sequelize } = require('../models')
 const { QueryTypes } = require('sequelize')
 const { AccountMeta, Balance } = require('../models')
+const c = require('../config/config')
 
 // https://stackoverflow.com/questions/35387264/node-js-request-module-getting-etimedout-and-esockettimedout
 process.env.UV_THREADPOOL_SIZE = 128
@@ -42,13 +43,8 @@ const updateBalances = async function (plaidAccounts, userId) {
 module.exports.updateBalances = updateBalances
 
 async function assetDepreciation() {
-  let sql = `select
-      *
-    from
-      public."AccountMeta" am
-    where
-      am."Cost" > 0`
-  res = await sequelize.query(sql, {
+  let sql1 = c.SQL().assetDepreciation1()
+  res = await sequelize.query(sql1, {
     type: QueryTypes.SELECT,
   })
 
@@ -59,15 +55,9 @@ async function assetDepreciation() {
     let newValue = depreciation(e.Cost, e.Salvage, e.Life, e.StartDate)
     newValue = newValue.toFixed(0)
     // console.log(newValue);
+    let sql2 = c.SQL().assetDepreciation1(newValue, e.id)
 
-    let sql1 = `update
-        public."AccountMeta"
-      set
-        "BackupAmount" = ${newValue}
-      where
-        id = ${e.id}`
-
-    result = await sequelize.query(sql1, {
+    result = await sequelize.query(sql2, {
       type: QueryTypes.UPDATE,
     })
   }
@@ -80,37 +70,17 @@ async function insertOrphans(balancesDate, userId) {
   // Every time you pull in balances, also pull in account metadata for missing accounts.
   // If you can connect those accounts in the future, just go into the db.Balances table
   // and update all the corresponding account IDs
-  // Could even work is you changed mortgages or cars in the future.
+  // Could even work if you changed mortgages or cars in the future.
 
-  let sql1 =
-    // select metadata with no matching entry in balance table, only for this batch of balance data
-    // if an account is reconnected, then you could go into balance and metadata table and rekey all account IDs
-    `select
-        *,
-        am.id as id,
-        am."UserID" as "UserID",
-        am."AccountID" as "AccountID"
-      from
-        public."AccountMeta" as am
-      left join (
-        select
-          *
-        from
-          public."Balances" as i
-        where
-          i."RetrievalDate" = '${balancesDate}') as b on
-        am."AccountID" = b."AccountID"
-      where
-        b."AccountID" is null
-        and am."Closed" is not true
-        and am."UserID" = ${userId}`
-
+  // select metadata with no matching entry in balance table, only for this batch of balance data
+  // if an account is reconnected, then you could go into balance and metadata table and rekey all account IDs
   // closed/inactive/expired accounts handled in metadata table:
+  let sql = c.SQL().insertOrphans(balancesDate, userId)
   // e.g. once mortgage ends, mark Closed as true (1) in metadata,
   // which prevents it being added to Balances table in the future
 
   // first pull in account metadata for accounts that don't have a match
-  result = await sequelize.query(sql1, {
+  result = await sequelize.query(sql, {
     type: QueryTypes.SELECT,
   })
   // console.log(result)

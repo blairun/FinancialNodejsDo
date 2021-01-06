@@ -1,22 +1,18 @@
 require('dotenv').config()
 const { Plaid, AccountMeta } = require('../models')
 const { developmentClient, sandboxClient } = require('../scripts/plaidClient')
-const util = require('util')
 const sqlSend = require('./sqlSend')
 const transactionError = require('../scripts/plaidError')
 const balanceError = require('../scripts/plaidError')
+const c = require('../config/config')
 
 const plaidClient = function () {
+  // default to development client
   let client = developmentClient
-
   if (process.env.PLAID_ENV === 'sandbox') {
     client = sandboxClient
   }
   return client
-}
-
-var prettyPrintResponse = (response) => {
-  console.log(util.inspect(response, { colors: true, depth: 4 }))
 }
 
 module.exports = {
@@ -30,20 +26,12 @@ module.exports = {
         req.body.PlaidToken,
         async function (error, tokenResponse) {
           if (error != null) {
-            prettyPrintResponse(error)
+            console.log(error)
             return response.json({
               error: error,
             })
           }
           ACCESS_TOKEN = tokenResponse.access_token
-          // saveAccessToken(ACCESS_TOKEN);
-          // ITEM_ID = tokenResponse.item_id;
-          // prettyPrintResponse(tokenResponse)
-          // response.json({
-          //   access_token: ACCESS_TOKEN,
-          //   item_id: ITEM_ID,
-          //   error: null,
-          // });
           // console.log(req.body)
           req.body.PlaidToken = ACCESS_TOKEN
           // console.log(req.body)
@@ -123,16 +111,7 @@ module.exports = {
   async metas(req, res) {
     // account metadata for current user
     // order items alphabetically
-    let sql = `select
-        *
-      from
-        public."AccountMeta" as am
-      where
-        am."UserID" = ${req.user.dataValues.id}
-        order by
-        LOWER(am."Institution")`
-    // and am."Closed" is null
-
+    let sql = c.SQL().metas(req.user.dataValues.id)
     await sqlSend(res, sql, 'account metadata')
   },
 

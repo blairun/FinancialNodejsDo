@@ -1,125 +1,40 @@
 require('dotenv').config()
 const axios = require('axios').default
-// const { Balance, Plaid } = require('../models')
 const sqlSend = require('./sqlSend')
 const { updateBalances } = require('../scripts/updateBalances')
 const { userPlaidAccounts } = require('./PlaidsCtrl')
 const balanceError = require('../scripts/plaidError')
+const c = require('../config/config')
 
 module.exports = {
   async current(req, res) {
-    // testing main branch commit that will get pushed to both
-
     // latest balance data (including missing plaid data that was inserted from metatdata table)
-    // testing code for supporting different databases
-    let sql = `select
-        *
-      from
-        public."Balances" as b
-      inner join (
-        select
-          i."AccountID",
-          max(i."RetrievalDate") as "Latest"
-        from
-          public."Balances" as i
-        group by
-          i."AccountID") as boo on
-        b."AccountID" = boo."AccountID"
-        and b."RetrievalDate" = boo."Latest"
-      inner join public."AccountMeta" as am on
-        am."AccountID" = b."AccountID"
-        and am."Closed" is not true
-      where
-        b."UserID" = ${req.user.dataValues.id}`
-
+    let sql = c.SQL().balances_current(req.user.dataValues.id)
     await sqlSend(res, sql, 'current balances')
   },
 
   async dates(req, res) {
     // all balance dates
-    let sql = `select
-        distinct b."RetrievalDate"
-      from
-        public."Balances" b 
-      where
-        b."UserID" = ${req.user.dataValues.id}`
-
+    let sql = c.SQL().balances_dates(req.user.dataValues.id)
     await sqlSend(res, sql, 'balance dates')
   },
 
   async all(req, res) {
     // all balance data
-    let sql = `select
-        *
-      from
-        public."Balances" b
-      inner join public."AccountMeta" am on
-        am."AccountID" = b."AccountID"
-      where
-        b."UserID" = ${req.user.dataValues.id}
-      order by
-        b."RetrievalDate"`
-    // test how Closed not true affects historical data
-    // and am."Closed" is not true
-    // limit date range to good values (e.g. starting Aug 20, 2020)
-    //  WHERE b.RetrievalDate > "2020-08-20"`;
-
+    let sql = c.SQL().balances_all(req.user.dataValues.id)
     await sqlSend(res, sql, 'all balances')
   },
 
   async date(req, res) {
-    let sql =
-      // selected date balance data (including missing plaid data that was inserted from metatdata table)
-      `select
-          *
-        from
-          public."Balances" as b
-        inner join (
-          select
-            i."AccountID",
-            max(i."RetrievalDate") as "Latest"
-          from
-            public."Balances" as i
-          where
-            i."RetrievalDate" = ?
-          group by
-            i."AccountID") as boo on
-          b."AccountID" = boo."AccountID"
-          and b."RetrievalDate" = boo."Latest"
-        inner join public."AccountMeta" as am on
-          am."AccountID" = b."AccountID"
-        where
-          b."UserID" = ${req.user.dataValues.id}`
-    //  where RetrievalDate like '%'
-
+    // selected date balance data (including missing plaid data that was inserted from metatdata table)
+    let sql = c.SQL().balances_date(req.user.dataValues.id)
     var date = [req.params.date]
-
     await sqlSend(res, sql, `${date} balances`, date)
   },
 
   async goals(req, res) {
     // goals data
-    let sql = `select
-        *
-      from
-        public."Balances" as b
-      inner join (
-        select
-          i."AccountID",
-          max(i."RetrievalDate") as "Latest"
-        from
-          public."Balances" as i
-        group by
-          i."AccountID") as boo on
-        b."AccountID" = boo."AccountID"
-        and b."RetrievalDate" = boo."Latest"
-      inner join public."AccountMeta" as am on
-        am."AccountID" = b."AccountID"
-      inner join public."Goals" g on
-        g."id" = am."GoalID"
-      where
-        b."UserID" = ${req.user.dataValues.id}`
-
+    let sql = c.SQL().balances_goals(req.user.dataValues.id)
     await sqlSend(res, sql, `goals`)
   },
 

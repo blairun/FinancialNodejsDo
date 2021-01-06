@@ -4,6 +4,7 @@ const transactionError = require('./plaidError')
 const { sequelize } = require('../models')
 const { Transaction } = require('../models')
 const { QueryTypes } = require('sequelize')
+const c = require('../config/config')
 
 // IDEA ! Plaid webhooks for realtime transaction updates
 // only usable if app is published on publicly accessible server like DigitalOcean
@@ -43,22 +44,9 @@ const updateTransactions = async function (plaidAccounts, userId, months = 1) {
     // delete pending transactions that have cleared
     // in some cases plaid can't match pending and cleared,
     // so you'll have to manually delete those pending transactions from db
-    let sqlCleanup = `delete
-      from
-        public."Transactions" a
-      where
-        a."TransactionID" in (
-        select
-          t."TransactionID"
-        from
-          public."Transactions" t
-        inner join public."Transactions" tt on
-          (t."TransactionID" = tt."PendingTransactionID")
-        where
-          tt."PendingTransactionID" is not null
-          and tt."UserID" = ${userId})`
+    let sql = c.SQL().cleanup(userId)
 
-    await sequelize.query(sqlCleanup, {
+    await sequelize.query(sql, {
       type: QueryTypes.DELETE,
     })
 

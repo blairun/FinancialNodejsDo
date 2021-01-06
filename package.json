@@ -40,7 +40,8 @@
     "passport-jwt": "4.0.0",
     "plaid": "8.1.2",
     "sequelize": "6.3.5",
-    "pg": "8.5.1"
+    "pg": "8.5.1",
+    "sqlite3": "5.0.0"
   },
   "devDependencies": {
     "morgan": "1.10.0",

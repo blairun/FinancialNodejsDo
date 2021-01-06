@@ -130,7 +130,7 @@ module.exports = {
       })
     } catch (error) {
       res.status(500).send({
-        error: 'An error occured trying to update this profile.',
+        error: 'An error occurred trying to update this profile.',
       })
     }
   },
